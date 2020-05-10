@@ -14,13 +14,13 @@ for (var i = 0; i < postElements.length; i++) {
         })
         .then(function(result) {
             if (result.status === 1) {
-            node.parentNode.removeChild(node);
-            console.log(result);
-        }
-        location.reload();
+             node.parentNode.removeChild(node);
+             console.log(result);
+            }
+            location.reload();
         })
-        .catch(function (err) {
+        .catch(function(err) {
             console.log(err);
         });
     });
-}
+   }
