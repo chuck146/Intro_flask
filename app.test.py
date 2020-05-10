@@ -11,7 +11,7 @@ class BasicTestCase(unittest.TestCase):
 
     def test_index(self):
         """Initial test: Ensure flask was set up correctly."""
-        tester = app.app.test_client(self)
+        tester = app.test_client(self)
         response = tester.get('/', content_type='html/text')
         self.assertEqual(response.status_code, 200)
 
@@ -25,7 +25,7 @@ class FlaskrTestCase(unittest.TestCase):
     def setUp(self):
         """Set up a blank temp database before each test."""
         basedir = os.path.abspath(os.path.dirname(__file__))
-        app.app.config['TESTING'] = True
+        app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
             os.path.join(basedir, TEST_DB)
         self.app = app.test_client()
@@ -80,6 +80,10 @@ class FlaskrTestCase(unittest.TestCase):
 
     def test_delete_message(self):
         """Ensure the messages are being deleted."""
+        rv = self.app.get('/delete/1')
+        data = json.loads(rv.data)
+        self.assertEqual(data['status'], 0)
+        self.login(app.config['USERNAME'], app.config['PASSWORD'])
         rv = self.app.get('/delete/1')
         data = json.loads(rv.data)
         self.assertEqual(data['status'], 1)
